@@ -1,0 +1,69 @@
+@use '_functions' as f;
+
+.list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: f.rem(24);
+    width: min(100% - f.rem(40), f.rem(600));
+    margin-inline: auto;
+    margin-top: f.rem(48);
+    
+    background-color: aliceblue;
+    border: 2px solid black;
+    border-radius: 6px;
+
+    &_topbox {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: f.rem(16);
+        margin-top: f.rem(48);
+        width: auto;
+        border: 2px solid black;
+    }
+
+    &_downbox {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: f.rem(16);
+        min-width: f.rem(207);
+        border: 2px solid black;
+    }
+
+    &_item {
+        display: flex;
+        //align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        //margin-bottom: f.rem(10);
+    }
+
+    &_item-text {
+        color: --yellow;
+        margin-left: f.rem(8);
+    }
+
+    
+    &_item-deleteBtn {
+        margin-left: f.rem(8);
+        //width: 100%;
+        //margin-left: 70%;
+        //position: fixed;
+        //left: 100%;
+    }
+
+
+}
+
+h2 {
+    color: black;
+}
+
+P {
+    color: black;
+}
+
+//list_test-item
