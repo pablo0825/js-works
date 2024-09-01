@@ -21,7 +21,36 @@
         gap: f.rem(16);
         margin-top: f.rem(48);
         width: auto;
-        border: 2px solid black;
+        //border: 2px solid black;
+    }
+
+    &_enter {
+        display: flex;
+        min-width: f.rem(400);
+        //border-radius: f.rem(24);
+        //overflow: hidden;
+    }
+
+    &_enter-text {
+        flex-grow: 1;
+        padding: f.rem(10) f.rem(15);
+        margin-right: f.rem(8);
+        background-color: #F0F4F8;
+        font-size: f.rem(16);
+        border: none;
+        border: 2px solid rgb(236, 236, 236);
+        border-radius: f.rem(4);
+        //outline: none;
+    }
+
+    &_enter-btn {
+        padding: f.rem(10) f.rem(15);
+        font-size: f.rem(20);
+        color: aliceblue;
+        background-color: #e7cd79;
+        border: none;
+        border-radius: f.rem(4);
+        cursor: pointer;
     }
 
     &_downbox {
@@ -29,30 +58,62 @@
         flex-direction: column;
         align-items: center;
         gap: f.rem(16);
-        min-width: f.rem(207);
-        border: 2px solid black;
+        min-width: f.rem(400);
+        margin-bottom: f.rem(48);
+        //border: 2px solid black;
     }
 
     &_item {
         display: flex;
+        flex: 1 2;
         //align-items: center;
-        justify-content: space-between;
+        //justify-content: space-between;
         width: 100%;
         //margin-bottom: f.rem(10);
+        border-bottom: f.rem(1) solid #eee ;
+        transition: transform 0.5s ease;
+    }
+
+    &_item-moving {
+        transition: transform 0.5s ease;
+    }
+
+    &_item-textbox {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
     }
 
     &_item-text {
-        color: --yellow;
+        color: var(--yellow);
         margin-left: f.rem(8);
+        font-size: f.rem(20);
     }
 
-    
+    &_item-text-true {
+        text-decoration: line-through;
+        color: #999;
+    }
+
     &_item-deleteBtn {
         margin-left: f.rem(8);
+        //width: f.rem(18);
+        height: 100%;
+        font-size: f.rem(20);
+        border: none;
+        background: none;
+        cursor: pointer;
         //width: 100%;
         //margin-left: 70%;
         //position: fixed;
         //left: 100%;
+        transform:rotate(0);
+        transition: .3s ease;
+    }
+
+    &_item-deleteBtn:hover {
+        color: var(--yellow);
+        transform:rotate(90deg);
     }
 
 
@@ -60,10 +121,13 @@
 
 h2 {
     color: black;
+    font-size: f.rem(32);
 }
 
 P {
     color: black;
 }
 
+
 //list_test-item
+

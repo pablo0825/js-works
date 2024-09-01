@@ -60,31 +60,80 @@ a, a:visited, a:active {
   gap: 1rem;
   margin-top: 3rem;
   width: auto;
-  border: 2px solid black;
+}
+.list_enter {
+  display: flex;
+  min-width: 25rem;
+}
+.list_enter-text {
+  flex-grow: 1;
+  padding: 0.625rem 0.9375rem;
+  margin-right: 0.5rem;
+  background-color: #F0F4F8;
+  font-size: 1rem;
+  border: none;
+  border: 2px solid rgb(236, 236, 236);
+  border-radius: 0.25rem;
+}
+.list_enter-btn {
+  padding: 0.625rem 0.9375rem;
+  font-size: 1.25rem;
+  color: aliceblue;
+  background-color: #e7cd79;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
 }
 .list_downbox {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  min-width: 12.9375rem;
-  border: 2px solid black;
+  min-width: 25rem;
+  margin-bottom: 3rem;
 }
 .list_item {
+  display: flex;
+  flex: 1 2;
+  width: 100%;
+  border-bottom: 0.0625rem solid #eee;
+  transition: transform 0.5s ease;
+}
+.list_item-moving {
+  transition: transform 0.5s ease;
+}
+.list_item-textbox {
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
 .list_item-text {
-  color: --yellow;
+  color: var(--yellow);
   margin-left: 0.5rem;
+  font-size: 1.25rem;
+}
+.list_item-text-true {
+  text-decoration: line-through;
+  color: #999;
 }
 .list_item-deleteBtn {
   margin-left: 0.5rem;
+  height: 100%;
+  font-size: 1.25rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transform: rotate(0);
+  transition: 0.3s ease;
+}
+.list_item-deleteBtn:hover {
+  color: var(--yellow);
+  transform: rotate(90deg);
 }
 
 h2 {
   color: black;
+  font-size: 2rem;
 }
 
 P {
