@@ -1,21 +1,35 @@
-//<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 const enterText = document.querySelector('.list_enter-text');
 const enterBtn = document.querySelector('.list_enter-btn');
 const downbox = document.querySelector('.list_downbox');
 
 const itemCheckbox = document.querySelector('.list_item-checkbox');
+const itemText = document.querySelector('.list_item-text');
+
+const listContent = JSON.parse(localStorage.getItem('listContent')) || [];
+
+window.addEventListener('load', () => {
+    listContent.forEach(item => {
+        listItem(item.Text, item.checked);
+    });
+
+    reorderItems();
+
+});
 
 enterBtn.addEventListener('click', () => {
+
     const enteValue = enterText.value;
 
-    if(typeof enteValue === "string"  & enteValue.trim() === ""){
-        console.log(13);
-    } else {
-        listItem(enteValue);
-        reorderItems();
-    }
+    if(typeof enteValue === "string" && enteValue.trim() === ""){
 
+        console.log("null");
+
+    } else {
+        listItem(enteValue, false);
+        reorderItems();
+        saveToLocal();
+    }
     enterText.value = "";
 });
 
@@ -23,82 +37,118 @@ enterText.addEventListener('keyup', (e) => {
 
     const enteValue = enterText.value;
 
-    if(e.keyCode === 13){
+    if(enteValue.trim() !== "" && e.keyCode === 13){
 
-        listItem(enteValue);
+        listItem(enteValue, false);
         reorderItems();
+        saveToLocal();
         enterText.value = "";
-
-    } 
+    }
 });
 
+//創造item的方法
+function listItem(textValue, cbValue){
 
-function listItem(textValue){
-
-    if(enterText.value === ""){
-        return;
-    }
-
-    //創造一個dvi
     const newDvi = document.createElement('div');
     newDvi.classList.add('list_item');
 
-    //創造一個複選框
     const checkBox = document.createElement('input');
     checkBox.type = 'checkbox';
     checkBox.classList.add('list_item-checkbox');
-    newDvi.appendChild(checkBox);
-
-    //創造包字串和
+    checkBox.checked = cbValue;
 
     const itemDvi = document.createElement('div');
     itemDvi.classList.add('list_item-textbox');
-    newDvi.appendChild(itemDvi);
 
     const textSpan = document.createElement('span');
     textSpan.textContent = textValue;
-    //textSpan.style.color = 'blue';
     textSpan.classList.add('list_item-text');
-    itemDvi.appendChild(textSpan);
 
     const deleteBtn = document.createElement('button');
-    //deleteBtn.textContent ='❌';
     deleteBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
     deleteBtn.classList.add('list_item-deleteBtn');
+
+    newDvi.appendChild(checkBox);
+    newDvi.appendChild(itemDvi);
+    itemDvi.appendChild(textSpan);
     itemDvi.appendChild(deleteBtn);
-
-    deleteBtn.addEventListener('click', () => {
-        downbox.removeChild(newDvi);
-    });
-
-    checkBox.addEventListener('change', () => {
-        if(checkBox.checked){
-            textSpan.classList.add('list_item-text-true');
-            reorderItems(newDvi, 0);
-        } else {
-            textSpan.classList.remove('list_item-text-true');
-            reorderItems(newDvi, downbox.children.length - 1);
-        }
-    });
-
     downbox.appendChild(newDvi);
+
+    listContent.push({
+        Text: textValue, checked: cbValue
+    });
+    saveToLocal();
+
+    console.log(listContent);
+
+    deleteItem(deleteBtn, newDvi, textValue);
+    checkBoxChange(checkBox, textSpan, textValue);
 }
 
-/*
+//刪除JS創造的item
+function deleteItem(deleteBtn, item, textValue) {
+
+    deleteBtn.addEventListener('click', () => {
+
+        downbox.removeChild(item);
+
+        const index = listContent.findIndex(item => item.Text == textValue);
+
+        if(index !== -1) {
+            listContent.splice(index, 1);
+            saveToLocal();
+            console.log(listContent);
+        }
+    });
+}
+
+//checkBox改變後執行方法內容
+function checkBoxChange(checkBox, textSpan, textValue) {
+    checkBox.addEventListener('change', () => {
+
+        //從陣列找到指定目標的方法
+        const index = listContent.findIndex(item => item.Text == textValue);
+        
+        if(index !== -1) {
+            listContent[index].checked = checkBox.checked;
+            saveToLocal();
+            console.log(listContent);
+        }
+
+        if(checkBox.checked){
+
+            textSpan.classList.add('list_item-text-true');
+
+        } else {
+
+            textSpan.classList.remove('list_item-text-true');
+        }
+        reorderItems();
+    });
+}
+
+//勾選、未勾選後，重新排序的方法
 function reorderItems() {
     const items = Array.from(downbox.children);
-    
+
     const checkedItems = items.filter(item => item.querySelector('.list_item-checkbox').checked);
     const uncheckedItems = items.filter(item => !item.querySelector('.list_item-checkbox').checked);
 
-    // 清空 downbox，然后按顺序重新添加
+    // 清空 downbox
     downbox.innerHTML = '';
+
+    //兩組重新排序，順序：未勾選、勾選
     uncheckedItems.forEach(item => downbox.appendChild(item));
     checkedItems.forEach(item => downbox.appendChild(item));
-
 }
-*/
 
+//把資料存到本地端
+function saveToLocal() {
+    localStorage.setItem('listContent', JSON.stringify(listContent));
+}
+
+
+/*
 function reorderItems(item, newIndex) {
     const initialRect = item.getBoundingClientRect();
 
@@ -121,4 +171,4 @@ function reorderItems(item, newIndex) {
         item.style.transition = 'transform 0.5s ease';
         item.style.transform = '';
     });
-}
+}*/
