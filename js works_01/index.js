@@ -1,53 +1,46 @@
-
 const enterText = document.querySelector('.list_enter-text');
 const enterBtn = document.querySelector('.list_enter-btn');
 const downbox = document.querySelector('.list_downbox');
-
-const itemCheckbox = document.querySelector('.list_item-checkbox');
-const itemText = document.querySelector('.list_item-text');
 
 const listContent = JSON.parse(localStorage.getItem('listContent')) || [];
 
 window.addEventListener('load', () => {
     listContent.forEach(item => {
-        listItem(item.Text, item.checked);
+        listItem(item.Text, item.checked, false);
     });
 
     reorderItems();
 
 });
 
-enterBtn.addEventListener('click', () => {
-
+//為null不執行，有字串在執行
+function newItemInput(){
     const enteValue = enterText.value;
 
-    if(typeof enteValue === "string" && enteValue.trim() === ""){
+    if(enteValue.trim() === ""){
 
         console.log("null");
 
     } else {
-        listItem(enteValue, false);
+        listItem(enteValue, false, true);
         reorderItems();
         saveToLocal();
     }
     enterText.value = "";
-});
+}
+
+enterBtn.addEventListener('click', newItemInput);
 
 enterText.addEventListener('keyup', (e) => {
 
-    const enteValue = enterText.value;
+    if(e.keyCode === 13){
 
-    if(enteValue.trim() !== "" && e.keyCode === 13){
-
-        listItem(enteValue, false);
-        reorderItems();
-        saveToLocal();
-        enterText.value = "";
+        newItemInput()
     }
 });
 
 //創造item的方法
-function listItem(textValue, cbValue){
+function listItem(textValue, cbValue, addToList = true){
 
     const newDvi = document.createElement('div');
     newDvi.classList.add('list_item');
@@ -74,57 +67,46 @@ function listItem(textValue, cbValue){
     itemDvi.appendChild(deleteBtn);
     downbox.appendChild(newDvi);
 
-    listContent.push({
-        Text: textValue, checked: cbValue
-    });
-    saveToLocal();
+    if(addToList){
+        listContent.push({
+
+            Text: textValue, checked: cbValue
+
+        });
+
+        saveToLocal();
+    }
 
     console.log(listContent);
-
-    deleteItem(deleteBtn, newDvi, textValue);
-    checkBoxChange(checkBox, textSpan, textValue);
 }
 
 //刪除JS創造的item
-function deleteItem(deleteBtn, item, textValue) {
+function deleteItem(item, textValue) {
 
-    deleteBtn.addEventListener('click', () => {
+    downbox.removeChild(item);
 
-        downbox.removeChild(item);
+    const index = listContent.findIndex(item => item.Text === textValue);
 
-        const index = listContent.findIndex(item => item.Text == textValue);
-
-        if(index !== -1) {
-            listContent.splice(index, 1);
-            saveToLocal();
-            console.log(listContent);
-        }
-    });
+    if(index !== -1) {
+        listContent.splice(index, 1);
+        saveToLocal();
+    }
 }
 
 //checkBox改變後執行方法內容
 function checkBoxChange(checkBox, textSpan, textValue) {
-    checkBox.addEventListener('change', () => {
+    
+    //從陣列找到指定目標的方法
+    const index = listContent.findIndex(item => item.Text === textValue);
+    
+    if(index !== -1) {
+        listContent[index].checked = checkBox.checked;
+        saveToLocal();
+    }
 
-        //從陣列找到指定目標的方法
-        const index = listContent.findIndex(item => item.Text == textValue);
-        
-        if(index !== -1) {
-            listContent[index].checked = checkBox.checked;
-            saveToLocal();
-            console.log(listContent);
-        }
+    textSpan.classList.toggle('list_item-text-true', checkBox.checked);
 
-        if(checkBox.checked){
-
-            textSpan.classList.add('list_item-text-true');
-
-        } else {
-
-            textSpan.classList.remove('list_item-text-true');
-        }
-        reorderItems();
-    });
+    reorderItems();
 }
 
 //勾選、未勾選後，重新排序的方法
@@ -147,6 +129,31 @@ function saveToLocal() {
     localStorage.setItem('listContent', JSON.stringify(listContent));
 }
 
+//處理刪除
+function handleDelete(e) {
+    const deleteBtn = e.target.closest('.list_item-deleteBtn');
+
+    if(deleteBtn){
+        const itemDvi = deleteBtn.closest('.list_item');
+        const textValue = itemDvi.querySelector('.list_item-text').textContent;
+        deleteItem(itemDvi, textValue);
+    }
+}
+
+//處理複選框
+function handleCheckBox(e) {
+    const checkBox = e.target;
+
+    if (checkBox.classList.contains('list_item-checkbox')) {
+        const itemDiv = checkBox.closest('.list_item');
+        const textSpan = itemDiv.querySelector('.list_item-text');
+        const textValue = textSpan.textContent;
+        checkBoxChange(checkBox, textSpan, textValue);
+    }
+}
+
+downbox.addEventListener('click', handleDelete);
+downbox.addEventListener('change', handleCheckBox);
 
 /*
 function reorderItems(item, newIndex) {
