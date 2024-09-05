@@ -2,180 +2,165 @@ const enterText = document.querySelector('.list_enter-text');
 const enterBtn = document.querySelector('.list_enter-btn');
 const downbox = document.querySelector('.list_downbox');
 
-const listContent = JSON.parse(localStorage.getItem('listContent')) || [];
+let listContent = JSON.parse(localStorage.getItem('listContent')) || [];
 
+// 頁面加載時從 localStorage 加載項目
 window.addEventListener('load', () => {
     listContent.forEach(item => {
-        listItem(item.Text, item.checked, false);
+        downbox.appendChild(listItemDOM(item.Text, item.checked));
     });
-
     reorderItems();
-
 });
 
-//為null不執行，有字串在執行
-function newItemInput(){
-    const enteValue = enterText.value;
+// 防抖機制，減少不必要的儲存次數
+function debounce(func, delay) {
+    let timeout;
+    return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), delay);
+    };
+}
 
-    if(enteValue.trim() === ""){
+const debouncedSave = debounce(saveToLocal, 300);
 
-        console.log("null");
+// 確認輸入是否有效
+function isValidInput(input) {
+    return input && input.trim() !== '';
+}
 
-    } else {
-        listItem(enteValue, false, true);
-        reorderItems();
-        saveToLocal();
-    }
+// 處理新項目輸入
+function newItemInput() {
+    const enterValue = enterText.value.trim();
+    if (!isValidInput(enterValue)) return;  // 空字串則不處理
+
+    downbox.appendChild(listItemDOM(enterValue, false));
+    listContent.push({ Text: enterValue, checked: false });
+
+    reorderItems();
+    saveToLocal();
     enterText.value = "";
 }
 
 enterBtn.addEventListener('click', newItemInput);
-
 enterText.addEventListener('keyup', (e) => {
-
-    if(e.keyCode === 13){
-
-        newItemInput()
+    if (e.key === 'Enter') {
+        newItemInput();
     }
 });
 
-//創造item的方法
-function listItem(textValue, cbValue, addToList = true){
-
-    const newDvi = document.createElement('div');
-    newDvi.classList.add('list_item');
+// 創建項目的 DOM 元素
+function listItemDOM(textValue, cbValue) {
+    const newDiv = document.createElement('div');
+    newDiv.classList.add('list_item');
 
     const checkBox = document.createElement('input');
     checkBox.type = 'checkbox';
     checkBox.classList.add('list_item-checkbox');
     checkBox.checked = cbValue;
 
-    const itemDvi = document.createElement('div');
-    itemDvi.classList.add('list_item-textbox');
+    const itemDiv = document.createElement('div');
+    itemDiv.classList.add('list_item-textbox');
 
-    const textSpan = document.createElement('span');
-    textSpan.textContent = textValue;
-    textSpan.classList.add('list_item-text');
+    const textInput = document.createElement('input');
+    textInput.type = 'text';
+    textInput.value = textValue;
+    textInput.classList.add('list_item-text');
+    textInput.setAttribute('data-old-value', textValue);
+
+    // 根據 checkBox 狀態來設置樣式
+    textInput.classList.toggle('list_item-text-true', cbValue);
 
     const deleteBtn = document.createElement('button');
     deleteBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
     deleteBtn.classList.add('list_item-deleteBtn');
 
-    newDvi.appendChild(checkBox);
-    newDvi.appendChild(itemDvi);
-    itemDvi.appendChild(textSpan);
-    itemDvi.appendChild(deleteBtn);
-    downbox.appendChild(newDvi);
+    newDiv.appendChild(checkBox);
+    newDiv.appendChild(itemDiv);
+    itemDiv.appendChild(textInput);
+    itemDiv.appendChild(deleteBtn);
 
-    if(addToList){
-        listContent.push({
-
-            Text: textValue, checked: cbValue
-
-        });
-
-        saveToLocal();
-    }
-
-    console.log(listContent);
+    return newDiv;
 }
 
-//刪除JS創造的item
+// 刪除項目
 function deleteItem(item, textValue) {
-
     downbox.removeChild(item);
-
-    const index = listContent.findIndex(item => item.Text === textValue);
-
-    if(index !== -1) {
-        listContent.splice(index, 1);
-        saveToLocal();
-    }
+    listContent = listContent.filter(item => item.Text !== textValue);
+    debouncedSave();
 }
 
-//checkBox改變後執行方法內容
-function checkBoxChange(checkBox, textSpan, textValue) {
-    
-    //從陣列找到指定目標的方法
+// 更新複選框的狀態並保存到 localStorage
+function checkBoxChange(checkBox, textInput, textValue) {
     const index = listContent.findIndex(item => item.Text === textValue);
-    
-    if(index !== -1) {
+    if (index !== -1) {
         listContent[index].checked = checkBox.checked;
-        saveToLocal();
+        textInput.classList.toggle('list_item-text-true', checkBox.checked);
+        debouncedSave();
     }
-
-    textSpan.classList.toggle('list_item-text-true', checkBox.checked);
-
     reorderItems();
 }
 
-//勾選、未勾選後，重新排序的方法
-function reorderItems() {
-    const items = Array.from(downbox.children);
-
-    const checkedItems = items.filter(item => item.querySelector('.list_item-checkbox').checked);
-    const uncheckedItems = items.filter(item => !item.querySelector('.list_item-checkbox').checked);
-
-    // 清空 downbox
-    downbox.innerHTML = '';
-
-    //兩組重新排序，順序：未勾選、勾選
-    uncheckedItems.forEach(item => downbox.appendChild(item));
-    checkedItems.forEach(item => downbox.appendChild(item));
+// 更新文字輸入框內容並保存
+function modifyTextInput(textInput, oldTextValue) {
+    const newTextValue = textInput.value;
+    const index = listContent.findIndex(item => item.Text === oldTextValue);
+    if (index !== -1) {
+        listContent[index].Text = newTextValue;
+        textInput.setAttribute('data-old-value', newTextValue);
+        debouncedSave();
+    }
 }
 
-//把資料存到本地端
+// 根據複選框的狀態重新排序項目
+function reorderItems() {
+    const fragment = document.createDocumentFragment();
+    const items = Array.from(downbox.children);
+
+    const uncheckedItems = items.filter(item => !item.querySelector('.list_item-checkbox').checked);
+    const checkedItems = items.filter(item => item.querySelector('.list_item-checkbox').checked);
+
+    uncheckedItems.forEach(item => fragment.appendChild(item));
+    checkedItems.forEach(item => fragment.appendChild(item));
+
+    downbox.innerHTML = '';
+    downbox.appendChild(fragment);
+}
+
+// 保存數據到 localStorage
 function saveToLocal() {
     localStorage.setItem('listContent', JSON.stringify(listContent));
 }
 
-//處理刪除
+// 處理刪除按鈕點擊事件
 function handleDelete(e) {
     const deleteBtn = e.target.closest('.list_item-deleteBtn');
-
-    if(deleteBtn){
-        const itemDvi = deleteBtn.closest('.list_item');
-        const textValue = itemDvi.querySelector('.list_item-text').textContent;
-        deleteItem(itemDvi, textValue);
+    if (deleteBtn) {
+        const itemDiv = deleteBtn.closest('.list_item');
+        const textValue = itemDiv.querySelector('.list_item-text').value;
+        deleteItem(itemDiv, textValue);
     }
 }
 
-//處理複選框
+// 處理複選框變更事件
 function handleCheckBox(e) {
     const checkBox = e.target;
-
     if (checkBox.classList.contains('list_item-checkbox')) {
         const itemDiv = checkBox.closest('.list_item');
-        const textSpan = itemDiv.querySelector('.list_item-text');
-        const textValue = textSpan.textContent;
-        checkBoxChange(checkBox, textSpan, textValue);
+        const textInput = itemDiv.querySelector('.list_item-text');
+        const textValue = textInput.value;
+        checkBoxChange(checkBox, textInput, textValue);
+    }
+}
+
+// 處理文字輸入框變更事件
+function handleModifTextInput(e) {
+    const textInput = e.target;
+    if (textInput.classList.contains('list_item-text')) {
+        const oldTextValue = textInput.getAttribute('data-old-value');
+        modifyTextInput(textInput, oldTextValue);
     }
 }
 
 downbox.addEventListener('click', handleDelete);
 downbox.addEventListener('change', handleCheckBox);
-
-/*
-function reorderItems(item, newIndex) {
-    const initialRect = item.getBoundingClientRect();
-
-    // 将元素移动到新位置
-    if (newIndex >= downbox.children.length) {
-        downbox.appendChild(item);
-    } else {
-        downbox.insertBefore(item, downbox.children[newIndex]);
-    }
-
-    const finalRect = item.getBoundingClientRect();
-
-    const deltaY = initialRect.top - finalRect.top;
-
-    // 应用 FLIP 动画
-    item.style.transform = `translateY(${deltaY}px)`;
-    item.style.transition = 'none';
-
-    requestAnimationFrame(() => {
-        item.style.transition = 'transform 0.5s ease';
-        item.style.transform = '';
-    });
-}*/
+downbox.addEventListener('input', handleModifTextInput);
