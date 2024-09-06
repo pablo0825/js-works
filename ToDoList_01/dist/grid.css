@@ -1,0 +1,9 @@
+.grid {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
+  width: min(100% - 2.5rem, 37.5rem);
+  margin-inline: auto;
+  margin-top: 3rem;
+}/*# sourceMappingURL=grid.css.map */

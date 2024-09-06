@@ -1,0 +1,24 @@
+@use 'sass:math';
+
+//計算rem的方法
+@function rem($pixel) {
+    //unitless ()，要求回傳無單位的數值
+    @if math.is-unitless($pixel) {
+        //math.div($pixel, X)，sass的除法
+        @return math.div($pixel, 16) + rem;
+    }
+    @else {
+        //警告提示
+        @error 'Don\'t use units when using the rem() function; only numbers.';
+    }
+}
+
+//計算em的方法
+@function em($pixel) {
+    @if math.is-unitless($pixel) {
+        @return math.div($pixel, 16) + em;
+    }
+    @else {
+        @error 'Don\'t use units when using the rem() function; only numbers.';
+    }
+}
