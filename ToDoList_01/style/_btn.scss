@@ -1,0 +1,82 @@
+@use '_functions' as f;
+
+.btn {
+    font-size: f.rem(20);
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    &_enter {
+        padding: f.rem(12) f.rem(16);
+        font-size: f.rem(20);
+        color: aliceblue;
+        background-color: var(--hint);
+        border-radius: f.rem(8);
+    }
+
+    &_delete {
+        top: f.rem(5);
+        font-size: f.rem(20);
+    }
+
+    &_priority {
+        padding: f.rem(4) f.rem(16);
+        color: #fff;
+        font-size: f.rem(12);
+        border-radius: f.rem(16);
+        line-height: 1;
+    }
+
+    &_add {
+        width: f.rem(36);
+        height: f.rem(36);
+        margin-left: 45%;
+        margin-right: 45%;
+        //padding: f.rem(12) f.rem(16);
+        font-size: f.rem(20);
+        color: aliceblue;
+        background-color: var(--hint);
+        border-radius: f.rem(8);
+    }
+}
+
+.urgent {
+    background-color: #FF0000;
+}
+
+.average {
+    background-color: #9400DA;
+}
+
+.taketourtime {
+    background-color: #63E000;
+}
+
+.btn_checkbox {
+    top: f.rem(5);
+    width: f.rem(20); 
+    height: f.rem(20); 
+    border: f.rem(2.5) solid #9400DA; 
+    background-color: #fff;
+    border-radius: f.rem(4);
+    position: relative;
+
+    &[aria-checked="true"] {
+        background-color: #9400DA;
+
+        &::after {
+            content: "\2713";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+
+            color: #fff;
+            font-size: f.rem(12);
+            font-weight: bold;
+
+            transform: translate(-50%, -50%);
+        }
+    }
+}
+
+

@@ -11,20 +11,11 @@
         background-color: var(--pms6c);
         font-size: f.rem(16);
         
-        border: none;
-        border: 2px solid rgb(222, 222, 222);
+        border: f.rem(2) solid rgb(222, 222, 222);
 
         border-radius: f.rem(8);
     }
 
-    &_btn {
-        padding: f.rem(12) f.rem(16);
-        font-size: f.rem(20);
-        color: aliceblue;
-        background-color: #e7cd79;
-        border: none;
-        border-radius: f.rem(8);
-        cursor: pointer;
-    }
+
 }
 

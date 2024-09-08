@@ -5,6 +5,10 @@ html {
     font-size: 100%;
 }
 
+* {
+    font-family: 'Noto Sans TC', sans-serif;
+}
+
 *, *::before, *::after {
     padding: 0;//相對
     margin: 0;
@@ -40,6 +44,7 @@ a, a:visited, a:active {
 
 :root {
     --bg: #E9E9E4;
+    --hint: #e7cd79;
 
     --bluel: #467897;
     --yellow: #e7cd79;
