@@ -41,28 +41,28 @@
 }
 
 .urgent {
-    background-color: #FF0000;
+    background-color: var(--urgent);
 }
 
 .average {
-    background-color: #9400DA;
+    background-color: var(--average);
 }
 
 .taketourtime {
-    background-color: #63E000;
+    background-color: var(--taketourtime);
 }
 
 .btn_checkbox {
     top: f.rem(5);
     width: f.rem(20); 
     height: f.rem(20); 
-    border: f.rem(2.5) solid #9400DA; 
+    border: f.rem(2.5) solid var(--average); 
     background-color: #fff;
     border-radius: f.rem(4);
     position: relative;
 
     &[aria-checked="true"] {
-        background-color: #9400DA;
+        background-color: var(--average);
 
         &::after {
             content: "\2713";
@@ -78,5 +78,30 @@
         }
     }
 }
+
+.btn_checkbox-urgent {
+    border: f.rem(2.5) solid var(--urgent); 
+
+    &[aria-checked="true"] {
+        background-color: var(--urgent);
+    }
+}
+
+.btn_checkbox-average {
+    border: f.rem(2.5) solid var(--average); 
+
+    &[aria-checked="true"] {
+        background-color: var(--average);
+    }
+}
+
+.btn_checkbox-taketourtime {
+    border: f.rem(2.5) solid var(--taketourtime); 
+
+    &[aria-checked="true"] {
+        background-color: var(--taketourtime);
+    }
+}
+
 
 
