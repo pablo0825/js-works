@@ -1,0 +1,21 @@
+@use '_functions' as f;
+
+.enter {
+    display: flex;
+    width: 100%;
+
+    &_text {
+        flex-grow: 1;
+        padding: f.rem(10) f.rem(12);
+        margin-right: f.rem(8);
+        background-color: var(--pms6c);
+        font-size: f.rem(16);
+        
+        border: f.rem(2) solid rgb(222, 222, 222);
+
+        border-radius: f.rem(8);
+    }
+
+
+}
+

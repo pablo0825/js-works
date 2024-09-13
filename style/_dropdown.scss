@@ -1,0 +1,45 @@
+@use '_functions' as f;
+
+.dropdown-menu {
+
+    position: absolute;
+    max-height: 0;
+    width: f.rem(150);
+
+    padding: 0;
+    margin: 0;
+
+    right:f.rem(16);
+
+    background-color: white;
+    box-shadow: 0 f.rem(4) f.rem(8) rgba(0, 0, 0, 0.1);
+    border-radius: f.rem(8);
+    z-index: 100;
+    list-style: none;
+
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden; /* 防止下拉內容溢出 */
+
+    transition: max-height 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.dropdown-menu ul {
+    padding: 0;
+}
+
+.dropdown-menu ul li {
+    padding: f.rem(10);
+    border-bottom: f.rem(1) solid #ddd;
+}
+
+.dropdown-menu ul li:hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+.dropdown-menu.show {
+    max-height: f.rem(300); /* 可以根據內容調整這個高度 */
+    opacity: 1;
+    visibility: visible;
+}

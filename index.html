@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-TW" dir="ltr">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-compatible" content="IE=edge">
+        <meta name=”viewport” content=”width=device-width, initial-scale=1.0">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&display=swap" rel="stylesheet">
+        <title>育嘉的代辦事項</title>
+        <link rel="stylesheet" href="./dist/style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <script type="module" src="js/index.js" async></script>
+    </head>
+    <body>
+        <main>
+            <div class="grid">
+                <div class="grid_topbox">
+                    <h2><p>新增專案</p></h2>
+                    <div class="enter">
+                        <input class="enter_text" type="text" name="enter" id="enter" placeholder="請輸入專案名稱">
+                        <button class="btn btn_enter" id="btn-enter"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                </div>
+                <div class="grid_downbox">
+                    <div class="project">
+                        <div class="project_topbox">
+                            <button class="btn btn_dropdown" id="btn-dropdown"><i class="fa-solid fa-play"></i></button>
+                            <div class="project_titlebox">
+                                <h2><p>測試專案</p></h2>
+                                <button class="btn btn_function" id="btn-function"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                            </div>
+                        </div>
+                        <div class="project_downbox">
+                            <div class="item">
+                                <button class="btn btn_checkbox btn_checkbox-average'" aria-checked="false" id="checked"></i></button>
+                                <div class="item_enter">
+                                    <input class="item_enter-title" type="text" name="title" id="text-title" placeholder="標題">
+                                    <input class="item_enter-remark" type="text" name="remark" id="text-remark" placeholder="備註">
+                                    <div class="item_btnbox">
+                                        <button class="btn btn_priority urgent">急</button>
+                                        <button class="btn btn_priority average">普通</button>
+                                        <button class="btn btn_priority taketourtime">慢慢來</button>
+                                    </div>
+                                </div>
+                                <button class="btn btn_delete"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+
+                            <div class="item">
+                                <button class="btn btn_checkbox btn_checkbox-average'" aria-checked="false" id="checked"></i></button>
+                                <div class="item_enter">
+                                    <input class="item_enter-title" type="text" name="title" id="text-title" placeholder="標題">
+                                    <input class="item_enter-remark" type="text" name="remark" id="text-remark" placeholder="備註">
+                                    <div class="item_btnbox">
+                                        <button class="btn btn_priority urgent">急</button>
+                                        <button class="btn btn_priority average">普通</button>
+                                        <button class="btn btn_priority taketourtime">慢慢來</button>
+                                    </div>
+                                </div>
+                                <button class="btn btn_delete"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+
+                        </div>
+                        <button class="btn btn_add" id="btn-add"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>
