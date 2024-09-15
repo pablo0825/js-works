@@ -63,6 +63,7 @@ export function newItemDom() {
     newItem.id = uniqueId;
 
     const checkboxBtn = createTagAndClass('button', null, null, 'btn', 'btn_checkbox', 'btn_checkbox-average');
+    checkboxBtn.setAttribute('aria-checked', 'false');
 
     const enter = createTagAndClass('div', null, null, 'item_enter');
 

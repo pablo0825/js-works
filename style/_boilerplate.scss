@@ -21,7 +21,7 @@ body {
     //min-height: 100vh;
     background-color: var(--bg);
     //background-image: url('/img/jeremy-perkins-uhjiu8FjnsQ-unsplash-small.jpg');
-    color: black;
+    color: #ABAFB3;
     font-family: 'Noto Sans TC', sans-serif;
 
     /*
@@ -43,11 +43,14 @@ a, a:visited, a:active {
 }
 
 :root {
-    --bg: #E9E9E4;
-    --hint: #e7cd79;
-    --urgent: #FF0000;
-    --average: #9400DA;
-    --taketourtime: #63E000;
+    --bg: #2B2D30;
+    --projectbg:#313338;
+    --itembg: #404247;
+
+    --hint: #5A64EA;
+    --urgent: #DF4F49;
+    --average: #814ABF;
+    --taketourtime: #58B99D;
 
     --bluel: #467897;
     --yellow: #e7cd79;

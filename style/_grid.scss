@@ -16,9 +16,9 @@
         gap: f.rem(16);
         padding: f.rem(20) f.rem(24);
    
-        background-color: rgb(255, 255, 255, 0.5);
-        border: 1px solid rgb(222, 222, 222);
-        box-shadow: f.rem(1) f.rem(1) f.rem(12) f.rem(2) rgba(0, 0, 0, 0.1);
+        background-color: var(--projectbg);
+        //border: 1px solid rgb(222, 222, 222, 0.2);
+        //box-shadow: f.rem(1) f.rem(1) f.rem(12) f.rem(2) rgba(147, 147, 147, 0.1);
 
         border-radius: f.rem(8);
     }

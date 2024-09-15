@@ -7,13 +7,17 @@
     &_text {
         flex-grow: 1;
         padding: f.rem(10) f.rem(12);
-        margin-right: f.rem(8);
-        background-color: var(--pms6c);
+        margin-right: f.rem(16);
+        background-color: #383A3F;
         font-size: f.rem(16);
         
-        border: f.rem(2) solid rgb(222, 222, 222);
+        color: #fff;
+        //border: f.rem(2) solid #81848D;
+        border: none;
 
         border-radius: f.rem(8);
+
+        outline: none;
     }
 
 

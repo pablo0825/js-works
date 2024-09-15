@@ -44,10 +44,6 @@ export function handleReorder(downBox) {
     const averageItem = items.filter(item => item.querySelector('.btn.btn_checkbox.btn_checkbox-average'));
     const taketourtimeItem = items.filter(item => item.querySelector('.btn.btn_checkbox.btn_checkbox-taketourtime'));
 
-    console.log('Urgent Items:', urgentItem);
-    console.log('Average Items:', averageItem);
-    console.log('Take Your Time Items:', taketourtimeItem);
-
     urgentItem.forEach(item => fragment.appendChild(item));
     averageItem.forEach(item => fragment.appendChild(item));
     taketourtimeItem.forEach(item => fragment.appendChild(item));
@@ -55,6 +51,32 @@ export function handleReorder(downBox) {
     downBox.innerHTML = '';
     downBox.appendChild(fragment);
 }
+
+export function reorderItems(downBox) {
+    const fragment = document.createDocumentFragment();
+    const items = Array.from(downBox.children);
+    
+    const uncheckedItems = items.filter(item => {
+        const checkbox = item.querySelector('.btn.btn_checkbox.btn_checkbox-average');
+        return checkbox && checkbox.getAttribute('aria-checked') === 'false';
+    });
+    
+    const checkedItems = items.filter(item => {
+        const checkbox = item.querySelector('.btn.btn_checkbox.btn_checkbox-average');
+        return checkbox && checkbox.getAttribute('aria-checked') === 'true';
+    });
+
+    console.log('uncheckedItems:', uncheckedItems);
+    console.log('checkedItems:', checkedItems);
+
+    uncheckedItems.forEach(item => fragment.appendChild(item));
+    checkedItems.forEach(item => fragment.appendChild(item));
+
+    downBox.innerHTML = ''; // 清空原始內容
+    downBox.appendChild(fragment); // 將重新排序的元素添加回去
+}
+
+
 
 //下拉選單
 export function handleDropdown(btnFunction) {

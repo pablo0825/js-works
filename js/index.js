@@ -1,5 +1,5 @@
 
-import { toggleItemState, handleInteraction, handleBtnBox } from './itemHandlers.js';
+import { toggleItemState, handleInteraction, handleBtnBox, checkBoxChange } from './itemHandlers.js';
 import { newProjectInput, handleNewItemAdd, handleDropdown, handleItemDelete } from './eventHandlers.js';
 import { getElements } from './domUtils.js';
 import { enterText, enterBtn, setOpenItem, getOpenItem } from './variables.js';
@@ -45,7 +45,10 @@ document.querySelector('.grid_downbox').addEventListener('click', (e) => {
 
     if(target.closest('.btn_function')) {
         handleDropdown(target);
-        
+    }
+
+    if(target.closest('.btn_checkbox')) {
+        checkBoxChange(target);
     }
 });
 

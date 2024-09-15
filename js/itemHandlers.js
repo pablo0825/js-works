@@ -1,7 +1,7 @@
 
 import { getElements } from './domUtils.js';
 import {  getOpenItem, setOpenItem } from './variables.js';
-import { handleReorder } from './eventHandlers.js';
+import { handleReorder, reorderItems } from './eventHandlers.js';
 
 
 export function toggleItemState(item, remark, btnBox, isOpen) {
@@ -85,8 +85,44 @@ export function handleInteraction(e) {
         itemUnfold(item, remark, btnBox);
     }
 
-
     else if (checkbox && checkbox.contains(e.target)) {
         toggleCheckbox(checkbox, item, remark, btnBox);
     }
 }
+
+export function checkBoxChange(checkbox) {
+    const project = checkbox.closest('.project');
+    if (!project) return; // 檢查 project 是否存在
+    
+    const downBox = project.querySelector('.project_downbox');
+    if (!downBox) return; // 檢查 downBox 是否存在
+    
+    const item = checkbox.closest('.item');
+    if (!item) return; // 檢查 item 是否存在
+    
+    const title = item.querySelector('.item_enter-title');
+    if (!title) return; // 檢查 title 是否存在
+
+    const btnBox = item.querySelector('.item_btnbox');
+    //if (!btnBox) return; // 檢查 title 是否存在
+    
+    const isChecked = checkbox.checked || checkbox.getAttribute('aria-checked') === 'true'; 
+    title.classList.toggle('item_enter-title-true', isChecked);
+
+    if(isChecked){
+        reorderItems(downBox);
+        console.log(btnBox);
+        
+        btnBox.setAttribute('inert', '');
+    } else {
+        reorderItems(downBox);
+        btnBox.removeAttribute('inert');
+    }
+}
+
+/*
+const btnBox = item.querySelector('.item_btnbox.item_btnbox-open');
+    if (!btnBox) return; // 檢查 title 是否存在
+    btnBox.setAttribute('inert', '');
+    btnBox.removeAttribute('inert');
+    */

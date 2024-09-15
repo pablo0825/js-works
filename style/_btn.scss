@@ -5,6 +5,7 @@
     background: none;
     border: none;
     cursor: pointer;
+    color: #B6BAC0;
 
     &_enter {
         padding: f.rem(12) f.rem(16);
@@ -16,14 +17,15 @@
 
     &_delete {
         top: f.rem(5);
+        padding: 0 f.rem(4);;
         font-size: f.rem(20);
-        transform:translateY(0);
-        transition: .2s ease;
+        transform:rotate(0);
+        transition: .3s ease;
     }
 
     &_delete:hover  {
-        //color: var(--yellow);
-        transform:translateY(f.rem(-4));
+        color: #fff;
+        transform:rotate(90deg);
     }
 
     &_priority {
@@ -47,12 +49,15 @@
     }
 
     &_function {
-        transform:translateY(0);
-        transition: .2s ease;
+        padding: 0 f.rem(8);        
+        border-radius: f.rem(8);
+        //transition: .2s ease;
     }
 
     &_function:hover {
-        transform:translateY(f.rem(-4));
+        color: #fff;
+        animation: myAnimation .3s ease-in-out;
+
     }
 }
 
@@ -73,7 +78,7 @@
     width: f.rem(20); 
     height: f.rem(20); 
     border: f.rem(2.5) solid var(--average); 
-    background-color: #fff;
+    background-color: var(--boxbg);
     border-radius: f.rem(4);
     position: relative;
 
@@ -93,6 +98,10 @@
             transform: translate(-50%, -50%);
         }
     }
+}
+
+.btn_checkbox:hover {
+    animation: myAnimation .3s ease-in-out;
 }
 
 .btn_checkbox-urgent {
@@ -120,4 +129,14 @@
 }
 
 
-
+@keyframes myAnimation {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(f.rem(-4));
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
