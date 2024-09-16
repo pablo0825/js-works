@@ -61,7 +61,7 @@ export function handleBtnBox(e) {
             checkbox.classList.remove('btn_checkbox-urgent', 'btn_checkbox-average', 'btn_checkbox-taketourtime');
             checkbox.classList.add(`btn_checkbox-${button}`);
 
-            handleReorder(downBox);
+            reorderItems(downBox);
         }
         const openItem = getOpenItem();
         if (item && item === openItem) {
@@ -103,7 +103,9 @@ export function checkBoxChange(checkbox) {
     const title = item.querySelector('.item_enter-title');
     if (!title) return; // 檢查 title 是否存在
 
-    const btnBox = item.querySelector('.item_btnbox');
+    const btnUrgent = item.querySelector('.btn_priority.urgent');
+    const btnAverage = item.querySelector('.btn_priority.average');
+    const btnTaketourtime = item.querySelector('.btn_priority.taketourtime');
     //if (!btnBox) return; // 檢查 title 是否存在
     
     const isChecked = checkbox.checked || checkbox.getAttribute('aria-checked') === 'true'; 
@@ -111,18 +113,26 @@ export function checkBoxChange(checkbox) {
 
     if(isChecked){
         reorderItems(downBox);
-        console.log(btnBox);
-        
-        btnBox.setAttribute('inert', '');
+
+        btnUrgent.classList.add('locking');
+        btnAverage.classList.add('locking');
+        btnTaketourtime.classList.add('locking');
+
+        btnUrgent.setAttribute('inert', '');
+        btnAverage.setAttribute('inert', '');
+        btnTaketourtime.setAttribute('inert', '');
+
     } else {
         reorderItems(downBox);
-        btnBox.removeAttribute('inert');
+
+        btnUrgent.classList.remove('locking');
+        btnAverage.classList.remove('locking');
+        btnTaketourtime.classList.remove('locking');
+
+        btnUrgent.removeAttribute('inert');
+        btnAverage.removeAttribute('inert');
+        btnTaketourtime.removeAttribute('inert');
+        
     }
 }
 
-/*
-const btnBox = item.querySelector('.item_btnbox.item_btnbox-open');
-    if (!btnBox) return; // 檢查 title 是否存在
-    btnBox.setAttribute('inert', '');
-    btnBox.removeAttribute('inert');
-    */

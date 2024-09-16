@@ -20,19 +20,20 @@ export function handleNewItemAdd(addItemBtn) {
 
     const project = addItemBtn.closest('.project');
     const downBox = project.querySelector('.project_downbox');
+    const checkbox = project.querySelector('.btn_checkbox');
 
     downBox.appendChild(newItemDom());
-    handleReorder(downBox);
+    reorderItems(downBox, checkbox);
 }
 
 //刪除項目
 export function handleItemDelete(deleteItemBtn) {
     const project = deleteItemBtn.closest('.project');
     const downBox = project.querySelector('.project_downbox');
-    const item = downBox.querySelector('.item');
+    const item = deleteItemBtn.closest('.item');
 
     downBox.removeChild(item);
-    handleReorder(downBox);
+    reorderItems(downBox);
 }
 
 //重新排序
@@ -55,23 +56,27 @@ export function handleReorder(downBox) {
 export function reorderItems(downBox) {
     const fragment = document.createDocumentFragment();
     const items = Array.from(downBox.children);
-    
+
     const uncheckedItems = items.filter(item => {
-        const checkbox = item.querySelector('.btn.btn_checkbox.btn_checkbox-average');
+        const checkbox = item.querySelector('.btn.btn_checkbox');
         return checkbox && checkbox.getAttribute('aria-checked') === 'false';
     });
-    
+
     const checkedItems = items.filter(item => {
-        const checkbox = item.querySelector('.btn.btn_checkbox.btn_checkbox-average');
+        const checkbox = item.querySelector('.btn.btn_checkbox');
         return checkbox && checkbox.getAttribute('aria-checked') === 'true';
     });
 
-    console.log('uncheckedItems:', uncheckedItems);
-    console.log('checkedItems:', checkedItems);
+    const urgentItem = uncheckedItems.filter(item => item.querySelector('.btn.btn_checkbox.btn_checkbox-urgent'));
+    const averageItem = uncheckedItems.filter(item => item.querySelector('.btn.btn_checkbox.btn_checkbox-average'));
+    const taketourtimeItem = uncheckedItems.filter(item => item.querySelector('.btn.btn_checkbox.btn_checkbox-taketourtime'));
 
-    uncheckedItems.forEach(item => fragment.appendChild(item));
+    urgentItem.forEach(item => fragment.appendChild(item));
+    averageItem.forEach(item => fragment.appendChild(item));
+    taketourtimeItem.forEach(item => fragment.appendChild(item));
+
     checkedItems.forEach(item => fragment.appendChild(item));
-
+    
     downBox.innerHTML = ''; // 清空原始內容
     downBox.appendChild(fragment); // 將重新排序的元素添加回去
 }
