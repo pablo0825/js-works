@@ -1,7 +1,7 @@
 
 import { getElements } from './domUtils.js';
 import {  getOpenItem, setOpenItem } from './variables.js';
-import { handleReorder, reorderItems } from './eventHandlers.js';
+import {  reorderItems } from './eventHandlers.js';
 
 
 export function toggleItemState(item, remark, btnBox, isOpen) {

@@ -1,6 +1,8 @@
 
 import { createTagAndClass } from './domUtils.js';
 import { generateUniqueId } from './utils.js';
+import { projects } from './variables.js';
+
 
 export function newProjectDom(enterValue) {
 
@@ -50,6 +52,14 @@ export function newProjectDom(enterValue) {
     container.appendChild(dropdownMenu);
 
     dropdownMenu.appendChild(ul);
+
+    const projectData = {
+        id: uniqueId,
+        title: enterValue,
+        items: []
+    };
+
+    projects.push(projectData);
 
     return newProject;
 }

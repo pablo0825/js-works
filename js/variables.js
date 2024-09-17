@@ -17,3 +17,5 @@ export function getOpenItem() {
 export function setOpenItem(item) {
     openItem = item;
 }
+
+export const projects = [];

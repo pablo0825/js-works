@@ -254,7 +254,7 @@ a, a:visited, a:active {
   padding: 0.875rem 0.875rem 1rem 0.875rem;
   background: var(--itembg);
   border-radius: 0.5rem;
-  transition: 0.3s ease;
+  transition: transform 0.5s ease, opacity 0.5s ease;
   overflow: hidden;
 }
 .item_enter {
@@ -301,6 +301,23 @@ a, a:visited, a:active {
 
 .item-open {
   height: 7.475rem;
+}
+
+.item-transition {
+  transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+/* 進入動畫的初始狀態 */
+.item-enter {
+  opacity: 0;
+  transform: scaleY(0.01) translate(3rem, 0);
+}
+
+/* 離開動畫 */
+.item-leave {
+  opacity: 0;
+  transform: scaleY(1) translate(-3rem, 0);
+  position: absolute;
 }
 
 .dropdown-menu {

@@ -8,7 +8,7 @@
     padding: f.rem(14) f.rem(14) f.rem(16) f.rem(14);
     background: var(--itembg);
     border-radius: f.rem(8);
-    transition: 0.3s ease;
+    transition: transform 0.5s ease, opacity 0.5s ease;
     overflow: hidden;
     
     &_enter {
@@ -66,3 +66,24 @@
 .item-open {
     height: f.rem(119.6);
 } 
+
+.item-transition {
+    transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+  }
+  
+  /* 進入動畫的初始狀態 */
+  .item-enter {
+    opacity: 0;
+    transform: scaleY(0.01) translate(f.rem(48), 0);
+  }
+  
+  /* 離開動畫 */
+  .item-leave {
+    opacity: 0;
+    transform: scaleY(1) translate(f.rem(-48), 0);
+    position: absolute;
+  }
+
+
+
+  
